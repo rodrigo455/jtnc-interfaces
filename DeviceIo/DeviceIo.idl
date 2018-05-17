@@ -1,0 +1,42 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Device IO API, Version: 1.0.2, 05 May 2010
+** Base API
+**
+** API CATEGORY:
+** JTNC Primitive API
+*/
+
+/*
+** DeviceIo.idl
+*/
+
+#ifndef __DEVICEIO_DEFINED
+#define __DEVICEIO_DEFINED
+
+module DeviceIo
+{
+	interface DeviceIoControl
+	{
+		oneway void enableRtsCts( in boolean enable );
+		oneway void setRts( in boolean rtsToState );
+	};
+	
+	interface DeviceIoSignals
+	{
+		oneway void setCts( in boolean ctsToState );
+	};
+};
+
+#endif //__DEVICEIO_DEFINED

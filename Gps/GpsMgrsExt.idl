@@ -1,0 +1,75 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Global Positioning System API, Version: 2.1.4, 24 July 2014
+** Mgrs Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** GpsMgrsExt.idl
+*/
+
+#ifndef __GPSMGRSEXT_DEFINED
+#define __GPSMGRSEXT_DEFINED
+
+#ifndef __GPSDEVICE_DEFINED
+#include <redhawk/GPS/GpsDevice.idl>
+#endif
+
+module Gps {
+
+	struct GpsMgrs {
+		string mgrs;
+	};
+	
+	struct GpsMgrsMessage {
+		/* GPS Time. */
+		GpsTime time;
+		/* GPS velocity data. */
+		GpsVel velocity;
+		GpsMgrs position;
+		/* Figure of merit data. */
+		GpsFomData fomData;
+	};
+	
+	interface MgrsDataProducer {
+	
+		exception DeviceError {
+			/* GPS Receive error. */
+			boolean invalidHardware;
+			/* GPSDevice is in an invalid state. */
+			boolean invalidState;
+			/* GPS Time data is wrong format. */
+			boolean invalidTime;
+			/* The message string describes a reason of exception has been raised by GPSDevice. */
+			string msg;
+		};
+		
+		void readMgrs (
+			inout GpsMgrsMessage message,
+			in boolean block
+			) raises (DeviceError);
+	};
+	
+	interface Mgrs1PpsConsumer {
+	
+		oneway void pushMgrs1Pps (
+		in GpsMgrsMessage message
+		);
+	};
+};
+
+#endif // __GPSMGRSEXT_DEFINED

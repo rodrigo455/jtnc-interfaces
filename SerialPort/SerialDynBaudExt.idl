@@ -1,0 +1,55 @@
+/*
+** RELEASE STATEMENT(s):
+** 						UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Serial Port Device API, Version: 2.1.4, 26 June 2013
+** Dynamic Baud Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** SerialDynBaudExt.idl
+*/
+
+#ifndef __SERIALDYNBAUDEXT_DEFINED
+#define __SERIALDYNBAUDEXT_DEFINED
+
+#ifndef __SERIALPORT_DEFINED
+#include <redhawk/SERIALPORT/SerialPort.idl>
+#endif
+
+/* SerialPortDevice */
+module SerialPort {
+
+	interface DynamicBaud {
+	
+		enum DataFlow {
+			TX, // Waveform OTA TX
+			RX, // Waveform OTA RX
+			BOTH
+		};
+		
+		unsigned long setBaudRate (
+			in DataFlow direction,
+			in unsigned long baudRate // in 0.01bps
+			) raises( JTRS::InvalidParameter );
+			
+		void getEffectiveBaudRate (
+			out unsigned long txBaudRate,// Waveform OTA TX in 0.01bps
+			out unsigned long rxBaudRate // Waveform OTA RX in 0.01bps
+			);
+	};
+};
+
+#endif // __SERIALDYNBAUDEXT_DEFINED

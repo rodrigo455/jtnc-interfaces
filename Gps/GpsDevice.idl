@@ -1,0 +1,110 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Global Positioning System API, Version: 2.1.4, 24 July 2014
+** Base API
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** GpsDevice.idl
+*/
+
+#ifndef __GPSDEVICE_DEFINED
+#define __GPSDEVICE_DEFINED
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+module Gps {
+
+	struct GpsTime {
+		/* The nanosecond attribute is used to indicate current nanosecond from GPS time. */
+		unsigned short nanosecond;
+		/* The microsecond attribute is used to indicate current microsecond from GPS time. */
+		unsigned short microsecond;
+		/* The millisecond attribute is used to indicate current millisecond from GPS time. */
+		unsigned short millisecond;
+		/* The second attribute is used to indicate current second from GPS time. */
+		unsigned short second;
+		/* The minute attribute is used to indicate current minute from GPS time. */
+		unsigned short minute;
+		/* The hour attribute is used to indicate current hour from GPS time. */
+		unsigned short hour;
+		/* The day attribute is used to indicate current date of week from GPS time. */
+		unsigned short day;
+		/* The month attribute is used to indicate current month from GPS time. */
+		unsigned short month;
+		/* The year attribute is used to indicate current year from GPS time. */
+		unsigned short year;
+	};
+	
+	struct GpsVel {
+		/* Velocity in East direction */
+		float velocityEast;
+		/* Velocity in North direction */
+		float velocityNorth;
+		/* Velocity in Up direction */
+		float velocityUp;
+		/* Attitude pitch position */
+		float attitudePitch;
+		/* Attitude Roll position */
+		float attitudeRoll;
+		/* A GPS system time in second. */
+		double gpsTimeTag;
+		/* UTC time tag in second */
+		double utcTimeTag;
+		/* True heading direction */
+		float trueHeading;
+		/* Altitude data. */
+		float altitude;
+	};
+	
+	struct GpsFomData {
+		/* A GPS system time in second. */
+		double gpsTimeTag;
+		/* A figure of merit is output as integer value between 1 and 9. */
+		unsigned short fom;
+		/* A time figure of merit is output as integer value between 1 and 9. */
+		unsigned short tfom;
+		/* indicates a valid velocity. */
+		boolean validVelocity;
+		/* Present GPS Receiver track output as degrees reference to true. */
+		float track;
+		/* Present GPS Receiver track output as degrees reference to magnetic. */
+		unsigned short trackUnit;
+		/* Present GPS Receiver track output as degrees reference to grid north. */
+		unsigned short northReference;
+		/* Estimate of horizontal error. */
+		float ehe;
+		/* A unit EHE is determined by values of EHE units (meters, feet, yards, kilometers, miles, nautical miles) */
+		unsigned short eheUnit;
+		/* Estimate position error. */
+		float epe;
+		/* A unit EPE is determined by values of EPE units (meters, feet, yards, kilometers, miles, nautical miles) */
+		unsigned short epeUnit;
+		/* GPS receiver modes (continuous, fix, averaging, time only, standby, 2D training, 3D training, rehearsal training) */
+		unsigned short gpsMode;
+		/* Estimate velocity Error. */
+		float eve;
+		/* A unit EVE is determined by values of EVE units (meters, feet, yards, kilometers, miles, nautical miles) */
+		unsigned short eveUnit;
+		/* Datum Identification. */
+		unsigned short datumId;
+	};
+};
+
+#endif // __GPSDEVICE_DEFINED

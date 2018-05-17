@@ -1,0 +1,93 @@
+/*
+** RELEASE STATEMENT(s):
+** 						UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Serial Port Device API, Version: 2.1.4, 26 June 2013
+** Asynchronous Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** SerialAsyncExt.idl
+*/
+
+#ifndef __SERIALASYNCEXT_DEFINED
+#define __SERIALASYNCEXT_DEFINED
+
+#ifndef __SERIALPORT_DEFINED
+#include <redhawk/SERIALPORT/SerialPort.idl>
+#endif
+
+module SerialPort {
+
+	const SynchronizationConfig CONFIG_ASYNC = 1;
+	
+	interface Async {
+	
+		/* The Parity enumerated type is used to establish the parity setting
+		* in SerialPortDevice HW register. */
+		
+		enum ParitySet {
+			/* Odd parity. */
+			ODD_PARITY,
+			/* Even parity. */
+			EVEN_PARITY,
+			/* No parity. */
+			NO_PARITY
+		};
+		
+		enum StopBitsType {
+			/* Use to set one bit length. */
+			ONE_BIT,
+			/* Use to set one and a half bit length. */
+			ONE_AND_HALF_BIT,
+			/* Use to set two bit length. */
+			TWO_BITS
+		};
+		
+		enum NumberDataBitsType {
+			/* Use to set the Five - bit data frame. */
+			FIVE_BIT,
+			/* Use to set the Six - bit data frame. */
+			SIX_BIT,
+			/* Use to set Seven - bit data frame. */
+			SEVEN_BIT,
+			/* Use to Eight - bit data frame. */
+			EIGHT_BIT
+		};
+		
+		struct AsyncConfigType {
+			/* Set the number of stop bits. */
+			StopBitsType numStopBits;
+			/* Set the number data bit length. */
+			NumberDataBitsType numDataBits;
+			/* Set parity types (odd, even or no parity). */
+			ParitySet parity;
+			unsigned long baudRate;
+			boolean hwFlowControl;
+			boolean swFlowControl;
+			boolean enableDma;
+			/* This is a link status read only */
+			boolean linkStatus;
+		};
+		
+		void setAsyncConfig (
+			in AsyncConfigType asyncConfiguration
+			) raises (JTRS::InvalidParameter);
+			
+		AsyncConfigType getAsyncConfig ();
+	};
+};
+
+#endif // __SERIALASYNCEXT_DEFINED

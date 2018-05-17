@@ -1,0 +1,96 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Serial Port Device API, Version: 2.1.4, 26 June 2013
+** Synchronous Hdlc Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** SerialSyncHdlcExt.idl
+*/
+
+#ifndef __SERIALSYNCHDLCEXT_DEFINED
+#define __SERIALSYNCHDLCEXT_DEFINED
+
+#ifndef __SERIALPORT_DEFINED
+#include <redhawk/SERIALPORT/SerialPort.idl>
+#endif
+
+module SerialPort {
+
+	const SynchronizationConfig CONFIG_SYNC_HDLC = 3;
+	
+	interface SyncHdlc{
+	
+		enum ClockSources {
+			/* Use to set the clock source which supports by the SerialPort HW. */
+			DCE,
+			/* Use to set the clock source which supports by the SerialPort HW. */
+			DTE
+		};
+		
+		enum SyncClockControlType {
+			/* Transmit clock is on when the RTS and CTS HW signals are both high */
+			RTS_CTS,
+			/* Transmit clock is free running */
+			FREE_RUNNING
+		};
+		
+		struct HdlcHeaderType {
+			/* Set the number of headers. */
+			octet numOfHeaders;
+			/* Set header 0. */
+			octet header0;
+			/* Set header 1. */
+			octet header1;
+			/* Set header 2. */
+			octet header2;
+			/* Set header 3. */
+			octet header3;
+			/* Set header 4. */
+			octet header4;
+			/* Set header 5. */
+			octet header5;
+		};
+		
+		struct SyncHdlcConfigType {
+			unsigned long baudRate;
+			/* Indicates type of transmitted Clock Source is set for the synchronization Configuration. */
+			ClockSources txClockSource;
+			HdlcHeaderType txHdlcHeader;
+			HdlcHeaderType rxHdlcHeader;
+			SyncClockControlType clockCtrl;
+			boolean txCrcEnable;
+			boolean rxCrcEnable;
+			boolean txCrcLength;
+			boolean rxCrcLength;
+			boolean txAltFrameFill;
+			boolean rxAltFrameFill;
+			octet autoBaudLimit;
+			boolean enableRtsCts;
+			boolean enableCdpMode;
+		};
+		
+		void setSyncHdlcConfig (
+			in SyncHdlcConfigType syncHdlcConfiguration
+			)
+			raises (JTRS::InvalidParameter);
+			
+		SyncHdlcConfigType getSyncHdlcConfig ();
+	};
+};
+
+#endif // __SERIALSYNCHDLCEXT_DEFINED

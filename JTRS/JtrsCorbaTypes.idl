@@ -1,0 +1,76 @@
+/*
+** RELEASE STATEMENT(s):
+** 								UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** JTRS CORBA Types API, Version: 1.0.2, 02 April 2008
+** Base API
+**
+** API CATEGORY:
+** JTNC Primitive API
+*/
+
+/*
+** JtrsCorbaTypes.idl - JTRS Standard Types
+*/
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#define __JTRSCORBATYPES_DEFINED
+
+#ifndef __CF_DEFINED
+#include <ossie/CF/cf.idl>
+#endif
+
+#ifndef __PORTTYPES_DEFINED
+#include <ossie/CF/PortTypes.idl>
+#endif
+
+module JTRS
+{
+	//
+	// ExtEnum - Extensible 'enum'
+	// Used instead of intrinsic enum unless the definition is complete.
+	// Enumeration values should be maintained as constant values by the
+	// owning service or its extensions
+	// (see: Vocoder.idl for example use).
+	typedef unsigned short ExtEnum;
+	typedef sequence<ExtEnum> ExtEnumSequence;
+	
+	//
+	// Unbounded intrinsic sequence types
+	// The 'floating point'types are not defined here as they will be
+	// avoided on resource restricted platforms and the use of floating
+	// point will be limited in the JTRS APIs.
+	//
+	typedef CF::OctetSequence OctetSequence;
+	typedef CF::StringSequence StringSequence;
+	
+	typedef PortTypes::BooleanSequence BooleanSequence;
+	typedef PortTypes::CharSequence CharSequence;
+	typedef PortTypes::LongLongSequence LongLongSequence;
+	typedef PortTypes::LongSequence LongSequence;
+	typedef PortTypes::ShortSequence ShortSequence;
+	typedef PortTypes::UlongLongSequence UlongLongSequence;
+	typedef PortTypes::UlongSequence UlongSequence;
+	typedef PortTypes::UshortSequence UshortSequence;
+	
+	
+	// Bad Method Parameter
+	exception InvalidParameter
+	{
+	};
+	
+	// Behaviour is not supported (on this platform - others might!)
+	exception Unsupported
+	{
+	};
+};
+#endif // __JTRSCORBATYPES_DEFINED

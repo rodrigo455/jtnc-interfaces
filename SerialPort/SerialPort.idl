@@ -1,0 +1,111 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Serial Port Device API, Version: 2.1.4, 26 June 2013
+** Base API
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** SerialPort.idl
+*/
+
+#ifndef __SERIALPORT_DEFINED
+#define __SERIALPORT_DEFINED
+
+#ifndef __PACKET_DEFINED
+#include <redhawk/PACKET/Packet.idl>
+#endif
+
+#ifndef __PACKETFLOWCONTROL_DEFINED
+#include <redhawk/PACKET/PacketFlowControl.idl>
+#endif
+
+#ifndef __PACKETEMPTYSIGNALS_DEFINED
+#include <redhawk/PACKET/PacketEmptySignals.idl>
+#endif
+
+#ifndef __DEVICEIO_DEFINED
+#include <redhawk/DEVICEIO/DeviceIo.idl>
+#endif
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+#ifndef __DEVICEMESSAGECONTROL_DEFINED
+#include <redhawk/DEVMSGCTL/DeviceMessageControl.idl>
+#endif
+
+module SerialPort {
+
+	interface SerialPortPacketProducer : Packet::PayloadControl,
+		Packet::FlowSignals,
+		Packet::EmptySignals,
+		DeviceIo::DeviceIoSignals
+	{
+	};
+	
+	interface SerialPortPacketConsumer : Packet::FlowControl,
+		Packet::FlowOctetStream,
+		Packet::EmptyControl,
+		DeviceIo::DeviceIoControl
+	{
+	};
+	
+	interface SerialMessageControl : DevMsgCtl::DeviceMessageControl
+	{
+	};
+
+	typedef JTRS::ExtEnum SynchronizationConfig;
+	typedef JTRS::ExtEnumSequence SynchronizationConfigSequence;
+	
+	// Base serial port constant
+	const SynchronizationConfig CONFIG_NONE = 0;
+	
+	interface SerialPortConfiguration {
+	
+		void setSynchronizationConfig (
+			in SynchronizationConfig synchronization
+			)
+			raises (JTRS::Unsupported);
+			
+		SynchronizationConfig getSynchronizationConfig ();
+		
+		SynchronizationConfigSequence getSynchronizationConfigsSupported ();
+		
+		void setLoopback (
+			in boolean loopback
+			)
+			raises (JTRS::InvalidParameter);
+			
+		boolean getLoopback ();
+		
+		enum ProtocolTypes {
+			EIA_232,
+			EIA_422,
+			EIA_423
+		};
+		
+		void setProtocolType (
+			in ProtocolTypes protocol
+			)
+			raises (JTRS::InvalidParameter);
+			
+		ProtocolTypes getProtocolType ();
+	};
+	
+};
+#endif // __SERIALPORT_DEFINED

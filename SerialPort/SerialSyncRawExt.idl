@@ -1,0 +1,72 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Serial Port Device API, Version: 2.1.4, 26 June 2013
+** Synchronous Raw Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** SerialSyncRawExt.idl
+*/
+
+#ifndef __SERIALSYNCRAWEXT_DEFINED
+#define __SERIALSYNCRAWEXT_DEFINED
+
+#ifndef __SERIALPORT_DEFINED
+#include <redhawk/SERIALPORT/SerialPort.idl>
+#endif
+
+module SerialPort {
+
+	const SynchronizationConfig CONFIG_SYNC_RAW = 2;
+	
+	interface SyncRaw{
+	
+		enum ClockSources {
+			/* Use to set the clock source which supports by the SerialPort HW. */
+			DCE,
+			/* Use to set the clock source which supports by the SerialPort HW. */
+			DTE
+		};
+		
+		enum SyncClockControlType {
+			/* Transmit clock is on when the RTS and CTS HW signals are both high */
+			RTS_CTS,
+			/* Transmit clock is free running */
+			FREE_RUNNING
+		};
+		
+		struct SyncRawConfigType {
+			octet autoBaudLimit;
+			/* Indicates type of transmitted Clock Source is set for the synchronization Configuration. */
+			ClockSources txClockSource;
+			SyncClockControlType clockCtrl;
+			unsigned long baudRate;
+			boolean enableRtsCts;
+			boolean enableCdpMode;
+		};
+		
+		void setSyncRawConfig (
+		in SyncRawConfigType syncRawConfiguration
+		)
+		raises (JTRS::InvalidParameter);
+		
+		SyncRawConfigType getSyncRawConfig ();
+		
+	};
+};
+
+#endif //__SERIALSYNCRAWEXT_DEFINED

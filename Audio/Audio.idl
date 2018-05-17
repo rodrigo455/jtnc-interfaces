@@ -1,0 +1,97 @@
+/*
+** RELEASE STATEMENT(s):
+** UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Audio Port Device API, Version: 1.3.4, 29 July 2010
+** Base API
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** Audio.idl - JTRS Base Audio Service Set
+*/
+#ifndef __AUDIO_DEFINED
+#define __AUDIO_DEFINED
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+module Audio
+{
+	// Push to Talk Control
+	interface AudioPTT_Signal
+	{
+		void setPTT( in boolean PTT );
+	};
+	
+	interface AudibleAlertsAndAlarms
+	{
+		exception InvalidToneProfile
+		{
+			boolean complexTone; // changed to FALSE ComplexToneProfile structure invalid
+			boolean simpleTone; // changed to FALSE SimpleToneProfile structure invalid
+			string msg; // message exception location
+		};
+		
+		exception InvalidToneId
+		{
+			string msg; // message exception location
+		};
+		
+		struct SimpleToneProfile
+		{
+			unsigned short frequencyInHz; // frequency in Hz
+			unsigned short durationPerBurstInMs; // duration of tone per burst in milliseconds
+			unsigned short repeatIntervalInMs; // The repeat interval in milliseconds
+		};
+		
+		enum ToneDescriminator
+		{
+			COMPLEX_TONE, // Select ComplexToneProfile
+			SIMPLE_TONE // Select SimpleToneProfile
+		};
+		
+		struct ComplexToneProfile
+		{
+			JTRS::ShortSequence toneSamples; // tone samples
+			unsigned short numberOfRepeats; // number times to repeat samples
+		};
+		
+		union ToneProfileType switch ( ToneDescriminator )
+		{
+			case COMPLEX_TONE:
+				ComplexToneProfile complexTone; // tone described by ComplexToneProfile
+			case SIMPLE_TONE:
+				SimpleToneProfile simpleTone; // tone described by SimpleToneProfile
+		};
+		
+		unsigned short createTone( in ToneProfileType toneProfile )
+			raises (InvalidToneProfile);
+		
+		void startTone( in unsigned short toneId )
+			raises (InvalidToneId);
+		
+		void stopTone( in unsigned short toneId )
+			raises (InvalidToneId);
+		
+		void destroyTone( in unsigned short toneId )
+			raises (InvalidToneId);
+		
+		void stopAllTones();
+	};
+};
+#endif
+
+

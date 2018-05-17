@@ -1,0 +1,3 @@
+mkdir -p build/idl/redhawk/JTRS
+cp ./*.idl build/idl/redhawk/JTRS/
+omniidl -I build/idl -D__x86_64__ -D__linux__ -D__OSVERSION__=2 -DENABLE_EVENTS=1 -I/usr/local/redhawk/core/include -I/usr/local/redhawk/core/include/ossie -I/usr/local/redhawk/core/share/idl    -I/usr/local/redhawk/core/share/idl -I/usr/share/idl -I/usr/share/idl/omniORB -I/usr/share/idl/omniORB/COS -C src/cpp/redhawk/JTRS -bcxx -Wba -Wbd=DynSK.cpp -Wbh=.h -Wbs=SK.cpp -Wbkeep_inc_path build/idl/redhawk/JTRS/JtrsCorbaTypes.idl

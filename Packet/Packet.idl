@@ -1,0 +1,103 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Packet API, Version: 2.0.2, 02 April 2008
+** Base API
+**
+** API CATEGORY:
+** JTNC Primitive API
+*/
+
+/*
+** Packet.idl - JTRS Packet Types
+*/
+
+#ifndef __PACKET_DEFINED
+#define __PACKET_DEFINED
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+module Packet
+{
+	//
+	// Base Packet Service Set
+	//
+	
+	// Payload Status Query
+	interface PayloadStatus
+	{
+		unsigned long getMaxPayloadSize();
+		unsigned long getMinPayloadSize();
+		unsigned long getDesiredPayloadSize();
+		unsigned long getMinOverrideTimeout();
+	};
+	
+	// Payload Modifiers
+	interface PayloadControl
+	{
+		void setMaxPayloadSize( in unsigned long maxPayloadSize )
+			raises (JTRS::InvalidParameter);
+			
+		void setMinPayloadSize( in unsigned long minPayloadSize )
+			raises (JTRS::InvalidParameter);
+			
+		void setDesiredPayloadSize( in unsigned long desiredPayloadSize )
+			raises (JTRS::InvalidParameter);
+			
+		void setMinOverrideTimeout( in unsigned long minOverrideTimeout )
+			raises (JTRS::InvalidParameter);
+	};
+	
+	//
+	// Streaming Services
+	//
+	typedef unsigned short Stream;
+	typedef octet SeqNum;
+	struct StreamControlType
+	{
+		boolean endOfStream; // Indicates whether it is end of stream or not.
+		Stream streamId; // Identification number for the stream.
+		SeqNum sequenceNumber; // The sequence number for the stream.
+		boolean purge; // Indicates whether to purge the stream or not.
+	};
+	
+	// Stream Exceptions
+	typedef JTRS::ExtEnum PushError;
+	
+	const PushError PPKT_UNKNOWN = 1;
+	const PushError PPKT_ERROR_BAD_SIZE = 2;
+	const PushError PPKT_ERROR_STREAM_BLOCKED = 3;
+	
+	exception UnableToComplete
+	{
+		unsigned short payloadSent; // Count of payload elements sent
+		PushError errorCode;
+	};
+	
+	// Packet Stream 'Consumers' types
+	interface OctetStream : PayloadStatus
+	{
+		void pushPacket( in StreamControlType control, in JTRS::OctetSequence payload )
+			raises( UnableToComplete );
+	};
+	
+	interface UshortStream : PayloadStatus
+	{
+		void pushPacket( in StreamControlType control, in JTRS::UshortSequence payload )
+			raises( UnableToComplete );
+	};
+};
+
+#endif // __PACKET_DEFINED

@@ -1,0 +1,50 @@
+/*
+** RELEASE STATEMENT(s):
+** 						UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Ethernet Device API, Version: 1.2.2, 31 March 2008
+** Mode Configuration Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** EthernetModeConfigExt.idl
+*/
+
+#ifndef __ETHERNETMODECONFIGEXT_DEFINED
+#define __ETHERNETMODECONFIGEXT_DEFINED
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+#ifndef __ETHERNET_DEFINED
+#include <redhawk/ETHERNET/Ethernet.idl>
+#endif
+
+module Ethernet {
+
+	typedef JTRS::ExtEnum EthernetMode;
+	const EthernetMode MODE_NONE = 0;
+	
+	interface EthernetModeConfig {
+	
+		EthernetMode getMode();
+		
+		void setMode( in EthernetMode mode ) raises( JTRS::Unsupported );
+	};
+	
+	const EthernetMode MODE_STANDARD = 1;
+};
+#endif // __ETHERNETMODECONFIGEXT_DEFINED
