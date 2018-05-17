@@ -1,0 +1,45 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Distribution Statement A - Approved for public release; distribution is
+** unlimited (08 September 2015).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Vocoder Service API, Version: 1.4, 26 February 2015
+** Vocoder Audio Stream Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** VocoderAudioStreamExt.idl
+*/
+
+#ifndef __VOCODERAUDIOSTREAMEXT_DEFINED
+#define __VOCODERAUDIOSTREAMEXT_DEFINED
+
+#ifndef __AUDIO_SAMPLE_STREAM_EXT_DEFINED
+#include <redhawk/AUDIO/AudioSampleStreamExt.idl>
+#endif
+
+module Vocoder
+{
+	
+	interface AudioSampleStream : Audio::SampleStream
+	{
+	};
+	
+	interface AudioSampleControl : Audio::SampleStreamControl
+	{
+	};
+};
+
+#endif // __VOCODERAUDIOSTREAMEXT_DEFINED

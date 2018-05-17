@@ -1,0 +1,10 @@
+#ECP Compilation Preferences
+#Thu May 17 15:40:52 BRT 2018
+.INVOKE_COMPILERS=
+.INCLUDE_PATHS=${OssieHome}/share/idl;/usr/share/idl/omniORB;/usr/share/idl/omniORB/COS
+.CUSTOM_OPTIONS=false
+.GENERATE_SKELETONS=false
+.GENERATE_TIES=false
+.GENERATE_STUBS=true
+.COMPILE=false
+.OUTPUT_DIRECTORY=

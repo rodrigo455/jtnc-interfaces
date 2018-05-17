@@ -1,0 +1,78 @@
+/*
+** RELEASE STATEMENT(s):
+** UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Distribution Statement A - Approved for public release; distribution is
+** unlimited (08 September 2015).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Vocoder Service API, Version: 1.4, 26 February 2015
+** Base API
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** Vocoder.idl
+*/
+
+#ifndef __VOCODER_DEFINED
+#define __VOCODER_DEFINED
+
+#ifndef __PACKET_DEFINED
+#include <redhawk/PACKET/Packet.idl>
+#endif
+
+// Base Interface
+module Vocoder
+{
+	typedef JTRS::ExtEnum Algorithm;
+	typedef JTRS::ExtEnumSequence AlgorithmSequence;
+	
+	// Base algorithm constants
+	// ALG_NONE de-selects other algorithms
+	// (see: CODEC extension for service extension descriptions)
+	
+	const Algorithm ALG_NONE = 0;
+	
+	// Producer/Consumer Port Descriptions
+	// Resource
+	interface VocoderPacketProducer : Packet::PayloadControl
+	{
+	};
+	
+	interface VocoderPacketConsumer : Packet::OctetStream
+	{
+	};
+	
+	interface Ctrl
+	{
+		boolean getLoopback();
+		void setLoopback( in boolean loopback );
+		
+		// Algorithm (CODEC) Controls
+		AlgorithmSequence getAlgorithmsSupported();
+		Algorithm getTxAlgorithm();
+		Algorithm getRxAlgorithm();
+		void setTxAlgorithm( in Algorithm txAlgorithm ) raises(JTRS::Unsupported);
+		void setRxAlgorithm( in Algorithm rxAlgorithm ) raises(JTRS::Unsupported);
+		void abortTx( );
+	};
+	
+	// Raw Audio Samples
+	// Default Vocoder Consumer/Producer Control, may be overridden by
+	// extension CODEC services. No specialization interface for the service
+	// or configuration is currently defined.
+	//
+	const Algorithm ALG_RAW = 1;
+	
+};
+
+#endif // VOCODER_DEFINED

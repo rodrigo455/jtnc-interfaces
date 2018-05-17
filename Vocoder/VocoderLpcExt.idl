@@ -1,0 +1,62 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Distribution Statement A - Approved for public release; distribution is
+** unlimited (08 September 2015).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Vocoder Service API, Version: 1.4, 26 February 2015
+** Lpc Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** VocoderLpcExt.idl
+*/
+
+#ifndef __VOCODER_LPC_EXT_DEFINED
+#define __VOCODER_LPC_EXT_DEFINED
+
+#ifndef __VOCODER_DEFINED
+#include <redhawk/VOCODER/Vocoder.idl>
+#endif
+
+module Vocoder
+{
+	const Algorithm ALG_LPC = 3;
+	
+	interface LPC
+	{
+		typedef JTRS::ExtEnum CodeBook;
+		
+		// Known Code Book Types
+		const CodeBook CB_NONE = 0;
+		const CodeBook CB_ENGLISH = 1;
+		const CodeBook CB_DUTCH = 2;
+		const CodeBook CB_SPANISH = 3;
+		const CodeBook CB_FRENCH = 4;
+		const CodeBook CB_ARABIC = 5;
+		const CodeBook CB_RUSSIAN = 6;
+		const CodeBook CB_MAX = 7;
+		
+		struct Config
+		{
+			CodeBook cfgCodeBook;
+			unsigned short bitRate;
+		};
+		
+		void configureLpc( in Config lpcCfg ) raises (JTRS::InvalidParameter);
+		Config getLpcConfig();
+		
+	};
+};
+#endif //__VOCODER_LPC_EXT_DEFINED
