@@ -1,0 +1,49 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Distribution Statement A - Approved for public release; distribution is
+** unlimited (08 September 2015).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Vocoder Service API, Version: 1.4, 26 February 2015
+** Melp Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** VocoderMelpExt.idl
+*/
+
+#ifndef __VOCODER_MELP_EXT_DEFINED
+#define __VOCODER_MELP_EXT_DEFINED
+
+#ifndef __VOCODER_DEFINED
+#include <redhawk/VOCODER/Vocoder.idl>
+#endif
+
+module Vocoder
+{
+	const Algorithm ALG_MELP = 2;
+	// No specialization required
+	interface MELP
+	{
+		struct Config
+		{
+			unsigned short bitRate;
+		};
+		
+		void configureMelp( in Config melpCfg ) raises (JTRS::InvalidParameter);
+		Config getMelpConfig();
+	
+	};
+};
+#endif //__VOCODER_MELP_EXT_DEFINED

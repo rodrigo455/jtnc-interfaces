@@ -1,0 +1,97 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Distribution Statement A - Approved for public release; distribution is
+** unlimited (08 September 2015).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Vocoder Service API, Version: 1.4, 26 February 2015
+** Melpe With Dtx And Vad Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** VocoderMelpeDtxVadExt.idl
+*/
+
+#ifndef __VOCODER_MELPEDTXVAD_EXT_DEFINED
+#define __VOCODER_MELPEDTXVAD_EXT_DEFINED
+
+#ifndef __VOCODER_DEFINED
+#include <redhawk/VOCODER/Vocoder.idl>
+#endif
+
+module Vocoder
+{
+	const Algorithm ALG_MELPE = 7;
+	
+	interface Melpe
+	{
+		struct Config
+		{
+			unsigned short bitRate;
+		};
+		
+		void configureMelpe( in Config melpeCfg ) raises (JTRS::InvalidParameter);
+		
+		Config getMelpeConfig();
+		
+		// Frame count type definition
+		typedef unsigned short NumMelpeFrames;
+		
+		// Blank Period frame type generated for the listener at the receiving end.
+		typedef JTRS::ExtEnum FrameType;
+		
+		const FrameType GRACE_FRAME = 0; 			// Repeat last received Grace
+													// Period frame.
+		const FrameType SILENCE_FRAME = 1; 			// Generate silent frames.
+		
+		typedef JTRS::ExtEnum RestartType; 			// Restart Message behavior
+		const RestartType RESTART_IMMEDIATE = 0; 	// Simply resume MELPe
+													// frames.
+													
+		struct MelpeDtxVadConfig
+		{
+			unsigned short bitRate; 			// Requested MELPe bit rate.
+			boolean enableMDV; 					// true = Use DTX/VAD.
+												// false = Melpe with no DTX/VAD.
+			NumMelpeFrames numGraceFrames; 		// Number of Grace Period frames
+												// prior to Blank Period.
+												// Ignored if enableMDV == false.
+			NumMelpeFrames minBlankPerFrames; 	// Minimum # of Blank Period
+												// frames.
+												// Ignored if
+												// enableMDV == false.
+			FrameType frameTypeToRepeat; 		// Blank Period frame type to
+												// generate at the receiving
+												// end.
+												// Ignored if
+												//enableMDV == false.
+			RestartType restartModeConfig; 		// Selects restart behavior.
+												// Ignored if
+												// enableMDV == false.
+		};
+		
+		// The Tactical Radio (TR) platform raises the Unsupported exception
+		// if the MelpeDtxVad extension isn’t supported.
+		// The TR platform raises the Invalid Parameter exception for
+		// unsupported parameter values.
+		void configureMelpeDtxVad( in MelpeDtxVadConfig melpeDtxVadCfg ) raises (JTRS::
+			InvalidParameter, JTRS::Unsupported);
+			
+		// The TR platform raises the Unsupported exception if the
+		// MelpeDtxVad extension isn’t supported.
+		MelpeDtxVadConfig getMelpeDtxVadConfig() raises (JTRS::Unsupported);
+		
+	};
+};
+#endif //__VOCODER_MELPEDTXVAD_EXT_DEFINED
