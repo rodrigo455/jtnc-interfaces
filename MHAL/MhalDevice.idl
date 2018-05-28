@@ -53,10 +53,10 @@ module MHAL {
 	interface PF_MHALPacketConsumer : MHALPacketConsumer {
 		// Following type and consts are DEPRECATED 27-August-2009 - Use versions scoped to MHAL module!
 		typedef MHAL::MHALPhysicalDestination MHALPhysicalDestination;
-		const MHALPhysicalDestination MHALPhysicalDestination_NONE = MHAL::MHALPhysicalDestination_NONE;
-		const MHALPhysicalDestination PHYSICAL_DESTINATION_DSP = MHAL::PHYSICAL_DESTINATION_DSP;
-		const MHALPhysicalDestination PHYSICAL_DESTINATION_FPGA = MHAL::PHYSICAL_DESTINATION_FPGA;
-		const MHALPhysicalDestination PHYSICAL_DESTINATION_GPP = MHAL::PHYSICAL_DESTINATION_GPP;
+		const MHALPhysicalDestination MHALPhysicalDestination_NONE = 0;
+		const MHALPhysicalDestination PHYSICAL_DESTINATION_DSP = 1;
+		const MHALPhysicalDestination PHYSICAL_DESTINATION_FPGA = 2;
+		const MHALPhysicalDestination PHYSICAL_DESTINATION_GPP = 3;
 		
 		void addTxRoute (
 			in unsigned short logicalDest,
