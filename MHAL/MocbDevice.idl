@@ -1,0 +1,208 @@
+/*
+** RELEASE STATEMENT(s):
+** 								UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** MHAL on Chip Bus API, Version: 1.1.5, 26 June 2013
+** Mocb Gpp Api Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** MocbDevice.idl
+*/
+
+#ifndef __MOCBDEVICE_DEFINED
+#define __MOCBDEVICE_DEFINED
+
+#ifndef __JTRSCORBATYPES_DEFINED
+#include <redhawk/JTRS/JtrsCorbaTypes.idl>
+#endif
+
+module MHAL {
+
+module MOCB {
+	
+	struct MultiLDReadEntry {
+		unsigned short LD;
+		unsigned long offset;
+		unsigned short nByte;
+	};
+	
+	typedef sequence<MultiLDReadEntry> MultiLDRead;
+	
+	struct MultiReadEntry {
+		unsigned long offset;
+		unsigned short nByte;
+	};
+	
+	typedef sequence<MultiReadEntry> MultiRead;
+	
+	struct MultiLDWriteEntry {
+		unsigned short LD;
+		unsigned long offset;
+		JTRS::OctetSequence buf;
+	};
+	
+	typedef sequence<MultiLDWriteEntry> MultiLDWrite;
+	
+	struct MultiWriteEntry {
+		unsigned long offset;
+		JTRS::OctetSequence buf;
+	};
+	
+	typedef sequence<MultiWriteEntry> MultiWrite;
+	
+	typedef JTRS::ExtEnum AddressIndexType;
+	
+	const AddressIndexType CONSTANT = 0;
+	const AddressIndexType INCREMENT= 1;
+	const AddressIndexType DECREMENT = 2;
+	
+	typedef short ErrorCodes;
+	
+	const ErrorCodes SUCCESSFUL = 0;
+	const ErrorCodes INV_MEM_ACCESS = -1;
+	const ErrorCodes INV_LD_OR_ADDR = -2;
+	const ErrorCodes SRC_MEM_NOT_ALIGNED = -3;
+	const ErrorCodes DST_MEM_NOT_ALIGNED = -4;
+	const ErrorCodes INV_EVENT_ID = -5;
+	const ErrorCodes INV_SEMAPHORE_NAME = -6;
+	const ErrorCodes INV_TIME = -7;
+	const ErrorCodes INV_SUBEVENT = -8;
+	const ErrorCodes TIMER_EXPIRED = -9;
+	const ErrorCodes INV_SIZE = -10;
+	
+	typedef JTRS::ExtEnum BitOp;
+	
+	const BitOp AND = 0;
+	const BitOp OR = 1;
+	const BitOp XOR = 2;
+	const BitOp NAND = 3;
+	const BitOp NOR = 4;
+	
+	struct MapEntry {
+		unsigned short LD; // the logical destination
+		unsigned long address; // the address this LD maps to
+		AddressIndexType indexType; // the index type for this address
+	};
+	
+	typedef sequence<MapEntry> Map;
+	
+	interface GPPMemoryAccessConsumer {
+	
+		oneway void read (
+			in unsigned short LD,
+			in unsigned long offset,
+			in unsigned short nByte,
+			in unsigned short callbackLD
+		);
+		
+		ErrorCodes readWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in unsigned short LD,
+			in unsigned long offset,
+			in unsigned short nByte,
+			out JTRS::OctetSequence buf
+		);
+		
+		ErrorCodes multiReadWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in unsigned short LD,
+			in MultiRead addrList,
+			out JTRS::OctetSequence buf
+		);
+		
+		ErrorCodes multiLDReadWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in MultiLDRead addrList,
+			out JTRS::OctetSequence buf
+		);
+		
+		oneway void write (
+			in unsigned short LD,
+			in unsigned long offset,
+			in JTRS::OctetSequence buf,
+			in unsigned short callbackLD
+		);
+		
+		ErrorCodes writeWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in unsigned short LD,
+			in unsigned long offset,
+			in JTRS::OctetSequence buf
+		);
+		
+		ErrorCodes multiWriteWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in unsigned short LD,
+			in MultiWrite addrValPairs
+		);
+		
+		ErrorCodes multiLDWriteWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in MultiLDWrite addrValPairs
+		);
+		
+		oneway void modify (
+			in unsigned short LD,
+			in unsigned long offset,
+			in JTRS::OctetSequence buf,
+			in BitOp bitOperation,
+			in unsigned short callbackLD
+		);
+		
+		ErrorCodes modifyWait (
+			in unsigned long sec,
+			in unsigned long nsec,
+			in unsigned short LD,
+			in unsigned long offset,
+			in JTRS::OctetSequence buf,
+			in BitOp bitOperation
+		);
+		
+		ErrorCodes configLDMap (
+			in Map configMap
+		);
+	};
+	
+	interface GPPEvent {
+	
+		ErrorCodes registerSemaphore (
+			in unsigned short eventId,
+			in unsigned short subEventId,
+			in string name
+		);
+		
+		ErrorCodes unregisterSemaphore (
+			in string name
+		);
+		
+		ErrorCodes registerEventMux(
+			in unsigned short eventId,
+			in unsigned short LD,
+			in unsigned long offset,
+			in unsigned short nByte
+		);
+	};
+};
+};
+
+#endif
+

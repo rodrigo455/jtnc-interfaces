@@ -16,6 +16,7 @@ DevIOS
 DevPK
 DevPktSig
 Ethernet
+MHAL
 Gps
 FreqRef
 TimingService
