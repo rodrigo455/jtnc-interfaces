@@ -17,6 +17,8 @@ DevPK
 DevPktSig
 Ethernet
 Gps
+FreqRef
+TimingService
 EOM
 
 echo "$MODULES" | while read -r MODULE

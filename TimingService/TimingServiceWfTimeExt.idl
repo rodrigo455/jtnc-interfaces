@@ -1,0 +1,50 @@
+/*
+** RELEASE STATEMENT(s):
+** 								UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Timing Service API, Version: 1.4.4, 26 June 2013
+** Waveform Time Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** TimingServiceWfTimeExt.idl
+*/
+
+#ifndef TIMINGSERVICEWFTIMEEXT_IDL
+#define TIMINGSERVICEWFTIMEEXT_IDL
+
+#ifndef __TIMINGSERVICE_DEFINED
+#include <redhawk/TIMINGSERVICE/TimingService.idl>
+#endif
+
+module TimingService
+{
+	interface WfTimeAccess
+	{
+		void pushWfTimeData (
+			in string wfId,
+			in TimeSpec wfTime,
+			in TimeSpec timestamp);
+			
+		boolean getWfTimeData (
+			in string wfId,
+			out TimeSpec wfTime,
+			out TimeSpec timestamp,
+			out TimeSpec lastWfTime);
+			
+		boolean clearWfTimeData (in string wfId);
+	};
+};
+#endif // TIMINGSERVICEWFTIMEEXT_IDL

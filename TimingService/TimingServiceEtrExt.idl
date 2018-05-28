@@ -1,0 +1,52 @@
+/*
+** RELEASE STATEMENT(s):
+** 							UNLIMITED RIGHTS
+** The Government has the right to use, modify, reproduce, release, perform,
+** display, or disclose this application programmable interface in whole or in
+** part, in any manner and for any purpose whatsoever, and to have or
+** authorize others to do so.
+**
+** Statement A - Approved for public release; distribution is unlimited (29 July 2014).
+*/
+
+/*
+** JTNC STANDARD SPECIFICATION:
+** Timing Service API, Version: 1.4.4, 26 June 2013
+** External Time Reference (etr) Extension
+**
+** API CATEGORY:
+** JTNC Complex API
+*/
+
+/*
+** TimingServiceEtrExt.idl
+*/
+
+#ifndef TIMINGSERVICEETREXT_IDL
+#define TIMINGSERVICEETREXT_IDL
+
+#ifndef __TIMINGSERVICE_DEFINED
+#include <redhawk/TIMINGSERVICE/TimingService.idl>
+#endif
+
+module TimingService
+{
+	struct EtrData
+	{
+		TimeSpec time;
+		unsigned short tfom;
+	};
+	
+	interface EtrEvent
+	{
+		void pushEtrEvent (in EtrData data, in TimeSpec timestamp);
+	};
+	
+	interface EtrAccess
+	{
+		void enableEtrEventOutput (in EtrEvent eventClient, out string eventClientId);
+		void disableETREventOutput (in string eventClientId);
+	};
+};
+
+#endif // TIMINGSERVICEETREXT_IDL
