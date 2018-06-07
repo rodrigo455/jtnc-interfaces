@@ -1,0 +1,108 @@
+#!/bin/bash
+
+show_help() {
+cat << EOF
+Usage: ./${0##*/} [-hf] [-m MODULE]
+Generate the required source files, build and install the Interfaces libraries into $OSSIEHOME
+
+    -h          display this help and exit
+    -f          force install corba modules.
+    -m MODULE   install specific corba module (case sensitive)
+
+JTNC CORBA Modules dependencies
+                       
+                      JTRS --> Packet -----> |                  
+JTRS -------> |                              | Audio --> Vocoder
+DevIOC -----> |                DevMsgCtl --> |
+DevIOS -----> | Ethernet          
+DevPK ------> |                DevMsgCtl --> |
+DevPktSig --> |                DeviceIo ---> | SerialPort
+                      JTRS --> Packet -----> |
+
+JTRS --> Packet --> MHAL       JTRS --> Gps
+
+FreqRef                        TimingService
+                
+EOF
+}
+
+not_force_install=1
+
+#Corba Modules must be in a safe order to satisfy dependency
+read -r -d '' MODULES << EOM
+JTRS
+Packet
+DevMsgCtl
+Audio
+Vocoder
+DeviceIo
+SerialPort
+DevIOC
+DevIOS
+DevPK
+DevPktSig
+Ethernet
+MHAL
+Gps
+FreqRef
+TimingService
+EOM
+
+while getopts hfm: opt; do
+    case $opt in
+        h)
+            show_help
+            exit 0
+            ;;
+        f)  not_force_install=0
+            ;;
+        m)  case "$MODULES" in
+                *${OPTARG}*) MODULES=$OPTARG  ;;
+                *)           echo -e "\033[1mThere isn't a module named $OPTARG\033[0m"; echo "run ./install -h"; exit 1 ;;
+            esac
+            ;;
+        *)
+            show_help >&2
+            exit 1
+            ;;
+    esac
+done
+
+echo -e "\033[1mCertify that you have sudo privileges...\033[0m"
+
+echo "$MODULES" | while read -r MODULE
+do
+	if [[ -e "$OSSIEHOME/lib/${MODULE^^}Interfaces.jar" && $not_force_install -eq "1" ]]; then
+		echo -e "\033[1mModule $MODULE already installed\033[0m"
+	else
+		echo "#############################################"
+		echo -e "#   \033[1mBuild and Installing $MODULE Module\033[0m"
+		echo "#############################################"
+		cd $MODULE/ 
+
+		echo -e "\033[1mConfigure...\033[0m"
+		if ! ./reconf; then
+			./reconf #try again
+			wait
+		fi
+		if ! ./configure; then
+			echo "Failed to configure $MODULE Module"
+			exit 1
+		fi
+
+		#echo -e "\033[1mBuilding...\033[0m"
+		#if ! make; then
+		#	echo "Failed to build $MODULE Module"
+		#	exit 1
+		#fi
+
+		echo -e "\033[1mBuilding and Installing...\033[0m"
+		if ! sudo make install; then
+			echo "Failed to install $MODULE Module"
+			exit 1
+		fi
+	
+		cd ..
+	fi	
+done
+

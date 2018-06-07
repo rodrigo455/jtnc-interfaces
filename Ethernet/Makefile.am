@@ -131,10 +131,10 @@ $(PACKAGE_NAME).pc: Makefile.am
 	@echo "includedir=$(includedir)" >> $@
 	@echo "" >> $@
 	@echo "Name: $(PACKAGE_NAME)" >> $@
-	@echo "Description: $(PACKAGE_NAME) for REDHAWK" >> $@
-	@echo "Requires:" >> $@
+	@echo "Description: JTNC $(PACKAGE_NAME) for REDHAWK" >> $@
+	@echo "Requires: jtrsInterfaces deviocInterfaces deviosInterfaces devpkInterfaces devpktsigInterfaces" >> $@
 	@echo "Version: $(PACKAGE_VERSION)" >> $@
-	@echo "Libs: -L\$${libdir} -l${LOWER_CASE_IDL_MODULE}Interfaces" >> $@
+	@echo "Libs: -L\$${libdir} -l${LOWER_CASE_IDL_MODULE}Interfaces -ljtrsInterfaces -ldeviocInterfaces -ldeviosInterfaces -ldevpkInterfaces -ldevpktsigInterfaces" >> $@
 	@echo "Cflags: -I\$${includedir}/$(LIBRARY_NAME)" >> $@
 
 ###############################################################################

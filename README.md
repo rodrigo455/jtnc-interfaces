@@ -8,6 +8,7 @@ Those Projects are based on JTNC Standard API Documents found in [www.public.nav
 
 You just need to to run:
 
-	$ ./instal.sh 
+	$ ./instal
 
-at the top level directory. It will generate the required source files, build and install the Interfaces libraries into $OSSIEHOME. Note: sudo privileges are required
+at the top level directory. It will generate the required source files, build and install the Interfaces libraries into $OSSIEHOME. Use `./install -m <module_name>` to install a specific JTNC CORBA Module. Use `./install -f` to reinstall JTNC CORBA Module(s).
+Note: sudo privileges are required
