@@ -131,7 +131,7 @@ $(PACKAGE_NAME).pc: Makefile.am
 	@echo "includedir=$(includedir)" >> $@
 	@echo "" >> $@
 	@echo "Name: $(PACKAGE_NAME)" >> $@
-	@echo "Description: $(PACKAGE_NAME) for REDHAWK" >> $@
+	@echo "Description: JTNC $(PACKAGE_NAME) for REDHAWK" >> $@
 	@echo "Requires:" >> $@
 	@echo "Version: $(PACKAGE_VERSION)" >> $@
 	@echo "Libs: -L\$${libdir} -l${LOWER_CASE_IDL_MODULE}Interfaces" >> $@

@@ -21,9 +21,14 @@ AC_LANG_PUSH([C++])
 PKG_CHECK_MODULES([OMNIORB], [omniORB4 >= 4.1.0])
 PKG_CHECK_MODULES([OSSIE], [ossie >= 2.1.0])
 
-# If you depend on other IDL modules, such as CF or BULKIO add them here
-# PKG_CHECK_MODULES([BULKIO], [bulkioInterfaces >= 2.1.0])
-# AC_CHECK_PYMODULE(bulkio.bulkioInterfaces, [], [AC_MSG_ERROR([the python bulkio.bulkioInterfaces module is required])])
+PKG_CHECK_MODULES([JTRS], [jtrsInterfaces])
+AC_CHECK_PYMODULE(redhawk.jtrsInterfaces, [], [AC_MSG_ERROR([the python redhawk.jtrsInterfaces module is required])])
+
+PKG_CHECK_MODULES([PACKET], [packetInterfaces])
+AC_CHECK_PYMODULE(redhawk.packetInterfaces, [], [AC_MSG_ERROR([the python redhawk.packetInterfaces module is required])])
+
+PKG_CHECK_MODULES([DEVMSGCTL], [devmsgctlInterfaces])
+AC_CHECK_PYMODULE(redhawk.devmsgctlInterfaces, [], [AC_MSG_ERROR([the python redhawk.devmsgctlInterfaces module is required])])
 
 # Optionally include java support
 AC_ARG_ENABLE([java], AS_HELP_STRING([--disable-java], [Disable framework java support]))

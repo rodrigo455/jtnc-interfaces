@@ -21,9 +21,20 @@ AC_LANG_PUSH([C++])
 PKG_CHECK_MODULES([OMNIORB], [omniORB4 >= 4.1.0])
 PKG_CHECK_MODULES([OSSIE], [ossie >= 2.1.0])
 
-# If you depend on other IDL modules, such as CF or BULKIO add them here
-# PKG_CHECK_MODULES([BULKIO], [bulkioInterfaces >= 2.1.0])
-# AC_CHECK_PYMODULE(bulkio.bulkioInterfaces, [], [AC_MSG_ERROR([the python bulkio.bulkioInterfaces module is required])])
+PKG_CHECK_MODULES([JTRS], [jtrsInterfaces])
+AC_CHECK_PYMODULE(redhawk.jtrsInterfaces, [], [AC_MSG_ERROR([the python redhawk.jtrsInterfaces module is required])])
+
+PKG_CHECK_MODULES([DEVIOC], [deviocInterfaces])
+AC_CHECK_PYMODULE(redhawk.deviocInterfaces, [], [AC_MSG_ERROR([the python redhawk.deviocInterfaces module is required])])
+
+PKG_CHECK_MODULES([DEVIOS], [deviosInterfaces])
+AC_CHECK_PYMODULE(redhawk.deviosInterfaces, [], [AC_MSG_ERROR([the python redhawk.deviosInterfaces module is required])])
+
+PKG_CHECK_MODULES([DEVPK], [devpkInterfaces])
+AC_CHECK_PYMODULE(redhawk.devpkInterfaces, [], [AC_MSG_ERROR([the python redhawk.devpkInterfaces module is required])])
+
+PKG_CHECK_MODULES([DEVPKTSIG], [devpktsigInterfaces])
+AC_CHECK_PYMODULE(redhawk.devpktsigInterfaces, [], [AC_MSG_ERROR([the python redhawk.devpktsigInterfaces module is required])])
 
 # Optionally include java support
 AC_ARG_ENABLE([java], AS_HELP_STRING([--disable-java], [Disable framework java support]))
